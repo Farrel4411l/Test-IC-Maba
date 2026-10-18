@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Informatics Community</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Perubahan: Ditambahkan script untuk mendeteksi apakah tersimpan data bahwa intro website sudah main atau belum, jika udah maka di skip dan tidak akan dimainkan lagi -->
+<script>
+  try {
+    if (sessionStorage.getItem('ic-intro-seen')) {
+      document.documentElement.classList.add('skip-intro');
+    }
+  } catch (e) {}
+</script>
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" type="image/x-icon" href="/images/logoic.png">
 
@@ -23,7 +31,8 @@
 <!-- NAV -->
 <nav>
   <a href="#" onclick="window.location.reload(true); return false;" class="nav-logo" style="display: flex; align-items: center; justify-content: center;" aria-label="Refresh Homepage">
-    <img src="images/logoic.png" alt="IC Logo" style="height: 36px; width: auto;">
+    <!-- Perubahan: Membuat logo IC lebih besar -->
+    <img src="images/logoic.png" alt="IC Logo" style="height: 56px; width: auto;">
   </a>
   <ul class="nav-links">
     <li><a href="#home">Home</a></li>
@@ -103,10 +112,11 @@
             <div class="vm-card">
               <div class="vm-header">
                 <div class="vm-icon">
+                  <!-- Perubahan: Diubah menjadi gambar bola lampu -->
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <circle cx="12" cy="12" r="6"></circle>
-                    <circle cx="12" cy="12" r="2"></circle>
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                    <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path>
                   </svg>
                 </div>
                 <h3>VISI</h3>
@@ -120,9 +130,11 @@
             <div class="vm-card">
               <div class="vm-header">
                 <div class="vm-icon">
+                  <!-- Perubahan: Diubah menjadi gambar target -->
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
-                    <line x1="4" y1="22" x2="4" y2="15"></line>
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="6"></circle>
+                    <circle cx="12" cy="12" r="2"></circle>
                   </svg>
                 </div>
                 <h3>MISI</h3>
@@ -203,7 +215,8 @@
           <!-- BPI -->
           <div class="divisi-card" data-index="0">
             <div class="divisi-img">
-              <img loading="lazy" src="images/divisi/ketuawakil.JPG" alt="Badan Pengurus Inti">
+              <!-- Perubahan: Menambah decoding="async" pada meringankan image -->
+              <img loading="lazy" decoding="async" src="images/divisi/ketuawakil.jpg" alt="Badan Pengurus Inti">
             </div>
             <div class="divisi-body">
               <div class="divisi-name">BPI</div>
@@ -215,7 +228,8 @@
           <!-- ACARA -->
           <div class="divisi-card" data-index="1">
             <div class="divisi-img">
-              <img loading="lazy" src="images/divisi/acara.JPG" alt="Divisi Acara">
+              <!-- Perubahan: Menambah decoding="async" pada meringankan image -->
+              <img loading="lazy" decoding="async" src="images/divisi/acara.jpg" alt="Divisi Acara">
             </div>
             <div class="divisi-body">
               <div class="divisi-name">ACARA</div>
@@ -227,7 +241,8 @@
           <!-- HUMAS -->
           <div class="divisi-card" data-index="2">
             <div class="divisi-img">
-              <img loading="lazy" src="images/divisi/humas.JPG" alt="Hubungan Masyarakat">
+              <!-- Perubahan: Menambah decoding="async" pada meringankan image -->
+              <img loading="lazy" decoding="async" src="images/divisi/humas.jpg" alt="Hubungan Masyarakat">
             </div>
             <div class="divisi-body">
               <div class="divisi-name">HUMAS</div>
@@ -239,7 +254,8 @@
           <!-- KEILMUAN -->
           <div class="divisi-card" data-index="3">
             <div class="divisi-img">
-              <img loading="lazy" src="images/divisi/keilmuan.JPG" alt="Divisi Keilmuan">
+              <!-- Perubahan: Menambah decoding="async" pada meringankan image -->
+              <img loading="lazy" decoding="async" src="images/divisi/keilmuan.jpg" alt="Divisi Keilmuan">
             </div>
             <div class="divisi-body">
               <div class="divisi-name">KEILMUAN</div>
@@ -251,7 +267,8 @@
           <!-- PUBLIDOK -->
           <div class="divisi-card" data-index="4">
             <div class="divisi-img">
-              <img loading="lazy" src="images/divisi/publidok.JPG" alt="Publikasi & Dokumentasi">
+              <!-- Perubahan: Menambah decoding="async" pada meringankan image -->
+              <img loading="lazy" decoding="async" src="images/divisi/publidok.jpg" alt="Publikasi & Dokumentasi">
             </div>
             <div class="divisi-body">
               <div class="divisi-name">PUBLIDOK</div>
@@ -263,7 +280,8 @@
           <!-- KONSUM -->
           <div class="divisi-card" data-index="5">
             <div class="divisi-img">
-              <img loading="lazy" src="images/divisi/konsumsi.JPG" alt="Divisi Konsumsi">
+              <!-- Perubahan: Menambah decoding="async" pada meringankan image -->
+              <img loading="lazy" decoding="async" src="images/divisi/konsumsi.jpg" alt="Divisi Konsumsi">
             </div>
             <div class="divisi-body">
               <div class="divisi-name">KONSUM</div>
@@ -275,7 +293,8 @@
           <!-- DANA & PERKAP -->
           <div class="divisi-card" data-index="6">
             <div class="divisi-img">
-              <img loading="lazy" src="images/divisi/perkap.JPG" alt="Dana & Perlengkapan">
+              <!-- Perubahan: Menambah decoding="async" pada meringankan image -->
+              <img loading="lazy" decoding="async" src="images/divisi/perkap.jpg" alt="Dana & Perlengkapan">
             </div>
             <div class="divisi-body">
               <div class="divisi-name">DANA & PERKAP</div>
@@ -298,16 +317,30 @@
 <!-- EVENTS -->
 <section id="events">
   <div class="container">
-    <h2 class="section-title">Events & Program</h2>
-    <div class="events-layout reveal">
-      <!-- FEATURED: Event terakhir (kiri besar) -->
+    <!-- Perubahan: Mengubah Events & Program -> Events & Activities, serta tombol untuk switch antar tab -->
+    <h2 class="section-title">Events & Activities</h2>
+
+    <!-- TAB SWITCHER -->
+    <div class="events-tabs" role="tablist">
+      <button type="button" class="events-tab active" role="tab" id="tab-btn-events"
+              aria-selected="true" aria-controls="panel-events" data-tab="events">Events</button>
+      <button type="button" class="events-tab" role="tab" id="tab-btn-activities"
+              aria-selected="false" aria-controls="panel-activities" data-tab="activities">Activities</button>
+    </div>
+
+    <!-- PANEL: EVENTS (semua yang tadinya ada) -->
+    <div class="events-panel" id="panel-events" role="tabpanel" aria-labelledby="tab-btn-events">
+      <div class="events-layout reveal">
+        <!-- FEATURED: Event terakhir (kiri besar) -->
       <div class="event-featured" id="featured-container" style="transition: opacity 0.3s ease;">
         <!-- Mute/Unmute Button -->
-        <button id="mute-btn" onclick="toggleMute()" style="position: absolute; top: 15px; right: 15px; z-index: 10; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; backdrop-filter: blur(4px); transition: all 0.3s;">
+        <!-- Perubahan: Membuat video lebih ringan dengan menghilangkan transition dan blur tombol mute -->
+        <button id="mute-btn" onclick="toggleMute()" style="position: absolute; top: 15px; right: 15px; z-index: 10; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer;">
           <span id="mute-icon">🔇</span>
         </button>
         <div class="event-thumb" style="background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0;">
-          <video id="featured-video" src="images/events/pizzahutphi.mp4" poster="images/events/pizza-hut.jpg" autoplay loop muted playsinline style="width: 100%; height: 100%;"></video>
+          <!-- Perubahan: Membuat video lebih ringan dengan mempreload metadatanya -->
+          <video id="featured-video" src="images/events/pizzahutphi.mp4" poster="images/events/pizza-hut.jpg" preload="metadata" loop muted playsinline disablepictureinpicture style="width: 100%; height: 100%;"></video>
         </div>
         <div class="event-body">
           <div class="event-meta">
@@ -323,7 +356,8 @@
         <!-- Card 1: Pizza Hut -->
         <div class="event-card reveal" style="cursor: pointer;" onclick="changeFeaturedEvent('images/events/pizzahutphi.mp4', '2026', 'Selesai', 'past', 'Seminar Tech & Talk: Pizza Hut Indonesia', 'Seminar Tech & Talk &quot;Build Apps, Build Yourself&quot; bersama Pizza Hut Indonesia — berbagi pengetahuan tentang teknologi dan industri untuk mempersiapkan mahasiswa menghadapi tantangan dunia kerja digital.')">
           <div class="event-thumb" style="overflow: hidden; padding: 0;">
-            <img loading="lazy" src="images/events/pizza-hut.jpg" alt="PHI" style="width: 100%; height: 100%; object-fit: cover;">
+            <!-- Perubahan: Menambah decoding="async" pada meringankan image -->
+            <img loading="lazy" decoding="async" src="images/events/pizza-hut.jpg" alt="PHI" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
           <div class="event-body">
             <div class="event-meta">
@@ -337,7 +371,8 @@
         <!-- Card 2: AORUS -->
         <div class="event-card reveal" style="cursor: pointer;" onclick="changeFeaturedEvent('images/events/aorus.mp4', '2025', 'Selesai', 'past', 'AORUS Campus Tour: Workshop & Kompetisi AI', 'AORUS Campus Tour adalah acara pameran dan lokakarya teknologi yang memperkenalkan AI kepada mahasiswa melalui kolaborasi kampus dengan industri teknologi global AORUS.')">
           <div class="event-thumb" style="overflow: hidden; padding: 0;">
-            <img loading="lazy" src="images/events/AORUS.jpg" alt="AORUS" style="width: 100%; height: 100%; object-fit: cover;">
+            <!-- Perubahan: Menambah decoding="async" pada meringankan image -->
+            <img loading="lazy" decoding="async" src="images/events/AORUS.jpg" alt="AORUS" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
           <div class="event-body">
             <div class="event-meta">
@@ -351,7 +386,8 @@
         <!-- Card 3: Wadhwani -->
         <div class="event-card reveal" style="cursor: pointer;" onclick="changeFeaturedEvent('images/events/wadhwani.mp4', '2025', 'Selesai', 'past', 'Seminar Soft Skill bersama Wadhwani Foundation', 'Seminar pengembangan soft skill di bidang Teknologi Informasi, bekerja sama dengan Wadhwani Foundation. Dirancang khusus agar mahasiswa lebih siap menghadapi tantangan dunia kerja dengan kemampuan non-teknis yang solid.')">
           <div class="event-thumb" style="overflow: hidden; padding: 0;">
-            <img loading="lazy" src="images/events/WADHWANI.png" alt="Wadhwani" style="width: 100%; height: 100%; object-fit: cover;">
+            <!-- Perubahan: Menambah decoding="async" pada meringankan image -->
+            <img loading="lazy" decoding="async" src="images/events/WADHWANI.png" alt="Wadhwani" style="width: 100%; height: 100%; object-fit: cover;">
           </div>
           <div class="event-body">
             <div class="event-meta">
@@ -363,6 +399,12 @@
           </div>
         </div>
       </div>
+    </div>
+    </div>
+
+    <!-- PANEL: ACTIVITIES (kosong dulu) -->
+    <div class="events-panel" id="panel-activities" role="tabpanel" aria-labelledby="tab-btn-activities" hidden>
+      <div class="events-empty"><b>Activities segera hadir.</b></div>
     </div>
   </div>
 </section>
@@ -459,13 +501,14 @@
       <div class="footer-col">
         <h4>Divisi</h4>
         <ul>
-          <li><a href="#divisi">BPI</a></li>
-          <li><a href="#divisi">Acara</a></li>
-          <li><a href="#divisi">Humas</a></li>
-          <li><a href="#divisi">Keilmuan</a></li>
-          <li><a href="#divisi">Publidok</a></li>
-          <li><a href="#divisi">Konsum</a></li>
-          <li><a href="#divisi">Dana & Perkap</a></li>
+          <!-- Perubahan: Ketika link divisi di footer di klik, langsung ke divisi tersebut -->
+          <li><a href="#divisi" data-divisi="0">BPI</a></li>
+          <li><a href="#divisi" data-divisi="1">Acara</a></li>
+          <li><a href="#divisi" data-divisi="2">Humas</a></li>
+          <li><a href="#divisi" data-divisi="3">Keilmuan</a></li>
+          <li><a href="#divisi" data-divisi="4">Publidok</a></li>
+          <li><a href="#divisi" data-divisi="5">Konsum</a></li>
+          <li><a href="#divisi" data-divisi="6">Dana & Perkap</a></li>
         </ul>
       </div>
     </div>
@@ -479,9 +522,7 @@
 <!-- DIVISI OVERLAY PAGE -->
   <div class="divisi-overlay" id="divisiOverlay">
     <div class="divisi-overlay-topbar">
-      <div class="nav-logo">
-        <img src="images/logoic.png" alt="IC Logo" style="height: 36px; width: auto;">
-      </div>
+      <!-- Perubahan: Menghilangkan logo IC agar tombol ← Kembali lebih rapi -->
       <button class="btn-ghost" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;" onclick="closeDivisiPage()">
         ← Kembali
       </button>

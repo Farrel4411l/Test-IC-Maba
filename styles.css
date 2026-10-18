@@ -56,11 +56,21 @@
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
+/* Perubahan: Membuat agar halaman utama di background tidak bisa di scroll ketika dalam mobile menu & divisi overlay */
+html.menu-open, html.menu-open body, html.divisi-open, html.divisi-open body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.mobile-menu, .divisi-overlay {
+  overscroll-behavior: contain;
+}
+
   h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; letter-spacing: -0.02em; }
 
   nav {
     position: fixed; top: 0; width: 100%; z-index: 999;
-    padding: 1rem 2rem;
+    padding: 0rem 2rem;
     display: flex; align-items: center; justify-content: space-between;
     background: var(--glass-bg);
     backdrop-filter: blur(16px);
@@ -88,7 +98,7 @@
   .hamburger:hover { border-color: var(--brand-blue); }
   .hamburger span {
     display: block; height: 1.5px; background: var(--text);
-    border-radius: 2px; transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    border-radius: 2px;
     transform-origin: center;
   }
   .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
@@ -96,11 +106,13 @@
   .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
   .mobile-menu {
-    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(255,255,255,0.97); backdrop-filter: blur(20px);
-    z-index: 150; flex-direction: column; align-items: center; justify-content: center;
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; backdrop-filter: blur(20px); background: rgba(255,255,255,0.97); z-index: 150; flex-direction: column; align-items: center; justify-content: center;
     opacity: 0; pointer-events: none;
     transition: opacity 0.3s ease;
+  }
+  /* Perubahan: Membuat background mobile menu mengikuti theme (light/dark) */
+  [data-theme="dark"] .mobile-menu {
+    background: rgba(30, 41, 88, 0.97);
   }
   .mobile-menu.open { opacity: 1; pointer-events: all; }
   .mobile-menu ul { list-style: none; text-align: center; }
@@ -118,7 +130,7 @@
     display: flex; align-items: center; gap: 8px;
     padding: 0.5rem 1rem; border: 1px solid var(--border);
     border-radius: 8px; text-decoration: none; color: var(--text-muted);
-    font-size: 0.85rem; transition: all 0.2s;
+    font-size: 0.85rem;
   }
   .mobile-menu-socials a:hover { border-color: var(--brand-blue); color: var(--brand-blue); }
 
@@ -217,7 +229,6 @@
     color: #ffffff;
     overflow: hidden;
     box-shadow: 0 0 25px rgba(59, 130, 246, 0.4), 0 0 50px rgba(59, 130, 246, 0.15);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 1;
   }
 
@@ -296,7 +307,7 @@
     padding: 0.75rem 1.8rem; background: var(--brand-blue);
     color: var(--navy); font-weight: 700; font-size: 0.95rem;
     border: none; border-radius: 8px; cursor: pointer;
-    text-decoration: none; transition: all 0.2s; font-family: 'Outfit', sans-serif;
+    text-decoration: none; font-family: 'Outfit', sans-serif;
     display: inline-flex; align-items: center; gap: 8px;
   }
   .btn-primary:hover { background: #33ddff; transform: translateY(-2px); }
@@ -304,7 +315,7 @@
     padding: 0.75rem 1.8rem; background: transparent;
     color: var(--text); font-weight: 600; font-size: 0.95rem;
     border: 1px solid var(--border-hover); border-radius: 8px; cursor: pointer;
-    text-decoration: none; transition: all 0.2s; font-family: 'Outfit', sans-serif;
+    text-decoration: none; font-family: 'Outfit', sans-serif;
     display: inline-flex; align-items: center; gap: 8px;
   }
   .btn-ghost:hover { background: rgba(0, 212, 255, 0.07); border-color: var(--brand-blue); }
@@ -313,7 +324,6 @@
   .btn-learn-more {
     position: relative;
     overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .btn-learn-more .arrow-down-icon {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -342,7 +352,7 @@
     display: flex; align-items: center; gap: 8px;
     padding: 0.55rem 1.2rem; border: 1px solid var(--border);
     border-radius: 8px; text-decoration: none; color: var(--text-muted);
-    font-size: 0.85rem; font-weight: 500; transition: all 0.2s;
+    font-size: 0.85rem; font-weight: 500;
     background: rgba(255,255,255,0.03);
   }
   .social-link:hover { border-color: var(--brand-blue); color: var(--brand-blue); }
@@ -429,7 +439,7 @@
   }
   .dot-red { background: #f43f5e; } /* Rose Red */
   .dot-yellow { background: #facc15; } /* Warm Yellow */
-  .dot-green { background: #3b82f6; } /* Sky Blue */
+  .dot-green { background: #3ef63b; } /* Sky Blue */
   .terminal-title {
     color: var(--text-muted);
     font-size: 0.78rem;
@@ -448,18 +458,19 @@
     gap: 8px;
     font-weight: 500;
   }
-  .prompt { color: var(--brand-red); }
-  .cmd { color: var(--brand-blue); }
+  /* Perubahan: Mengubah warna terminalnya */
+  .prompt { color: #a7373b; }
+  .cmd { color: #9068b0; }
   .arg { color: #f8fafc; }
   .terminal-output pre {
     margin: 0;
     white-space: pre;
     line-height: 1.6;
   }
-  .json-key { color: var(--brand-blue); }
-  .json-val-str { color: #79d799; }
-  .json-val-num { color: #ffb86c; }
-  .json-val-bool { color: #bb9af2; }
+  .json-key { color: #9068b0; }
+  .json-val-str { color: #50a8c8; }
+  .json-val-num { color: #a7373b; }
+  .json-val-bool { color: #a7373b; }
   .stats-row {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2.5rem;
   }
@@ -498,7 +509,7 @@
   .divisi-card {
     flex: 0 0 280px; background: var(--slate); border: 1px solid var(--border);
     border-radius: 20px; overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.4s cubic-bezier(0.4,0,0.2,1), border-color 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); /* Perubahan: Membuat transisi divisi-card lebih ringan */
     cursor: pointer; position: relative;
     transform: scale(0.9); opacity: 0.6;
   }
@@ -566,13 +577,13 @@
     width: 44px; height: 44px; border-radius: 50%;
     background: var(--slate); border: 1px solid var(--border);
     color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; transition: all 0.2s; user-select: none;
+    font-size: 1.1rem; user-select: none;
   }
   .carousel-btn:hover { background: var(--slate2); border-color: var(--brand-blue); color: var(--brand-blue); }
   .carousel-dots { display: flex; gap: 8px; }
   .carousel-dot {
     width: 8px; height: 8px; border-radius: 50%;
-    background: var(--text-dim); cursor: pointer; transition: all 0.3s;
+    background: var(--text-dim); cursor: pointer;
   }
   .carousel-dot.active {
     background: var(--brand-blue); width: 24px; border-radius: 4px;
@@ -599,6 +610,11 @@
   .divisi-page {
     max-width: 800px; margin: 0 auto;
     padding: 5rem 2rem 4rem;
+  }
+  @media (max-width: 768px) {
+    .divisi-page {
+      text-align: center; /* Perubahan: Membuat teks divisi di tengah ketika layar lebih kecil */
+    }
   }
   .divisi-page-back {
     display: inline-flex; align-items: center; gap: 8px;
@@ -710,7 +726,7 @@
     border-radius: 20px;
     overflow: hidden;
     text-align: center;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.4s cubic-bezier(0.4,0,0.2,1), border-color 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); /* Perubahan: Membuat transisi member-card lebih ringan */
     transform: scale(0.85);
     opacity: 0.5;
   }
@@ -784,7 +800,6 @@
     align-items: center;
     justify-content: center;
     font-size: 1.1rem;
-    transition: all 0.2s;
     user-select: none;
   }
   .member-carousel-btn:hover {
@@ -802,7 +817,6 @@
     border-radius: 50%;
     background: var(--text-dim);
     cursor: pointer;
-    transition: all 0.3s;
   }
   .member-carousel-dot.active {
     background: var(--brand-blue);
@@ -820,6 +834,19 @@
     border-bottom: 1px solid var(--border);
   }
   @media (max-width: 768px) {
+      /* lighter glow: still visible, much cheaper to paint */
+    .divisi-card.active,
+    .member-card.active {
+      box-shadow: 0 0 28px rgba(0, 212, 255, 0.15);
+    }
+
+    .carousel-wrapper { contain: layout paint; }
+
+    /* keep the frosted look, with a cheaper blur */
+    nav { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .divisi-overlay { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+    .divisi-overlay-topbar { backdrop-filter: none; -webkit-backdrop-filter: none; }
+
     .divisi-overlay-topbar { display: flex; align-items: center; top: 0; }
     .divisi-page { padding: 1.5rem 1.2rem 3rem; }
     .divisi-page-back { display: none; } /* Hide inline back on mobile, use topbar instead */
@@ -884,13 +911,68 @@
   .event-featured .event-desc { font-size: 0.9rem; line-height: 1.5; color: rgba(255,255,255,0.85); text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
   .event-featured-badge {
     display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(0,212,255,0.2); border: 1px solid rgba(0,212,255,0.4);
+    background: rgba(0, 40, 60, 0.55); border: 1px solid rgba(0,212,255,0.4);
     color: #fff; font-size: 0.75rem; font-weight: 600;
     padding: 6px 14px; border-radius: 999px; margin-bottom: 0.75rem;
     letter-spacing: 0.04em; align-self: flex-start;
-    backdrop-filter: blur(4px);
   }
 
+  /* Perubahan: Menambahkan style untuk tombol berpindah antara panel events & activities */
+  /* Events / Activities tabs */
+  .events-tabs {
+    display: flex;
+    gap: 0.4rem;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 0 2rem;
+    padding: 4px;
+    background: var(--glass-bg);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    position: relative;
+    z-index: 10;
+  }
+  .events-tab {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.55rem 1.6rem;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+  .events-tab:hover { color: var(--text); }
+  .events-tab.active {
+    color: var(--brand-blue);
+    border-color: var(--brand-blue);
+    background: var(--navy);
+  }
+
+  .events-panel { animation: eventsPanelFade 0.35s ease; }
+  @keyframes eventsPanelFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .events-empty {
+    padding: 4rem 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    border: 1px dashed var(--border);
+    border-radius: 16px;
+  }
+
+  @media (hover: hover) {
+  .event-featured:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 8px 30px rgba(0,212,255,0.06);
+    transform: translateY(-4px);
+    }
+  }
+  .event-featured { contain: layout paint; }
 
   /* Right scrollable column */
   .events-sidebar {
@@ -912,7 +994,7 @@
   /* Event card horizontal style */
   .event-card {
     background: var(--slate); border: 1px solid var(--border);
-    border-radius: 12px; overflow: hidden; transition: all 0.3s;
+    border-radius: 12px; overflow: hidden;
     display: flex; flex-direction: row; align-items: stretch;
     flex-shrink: 0; min-height: 110px;
   }
@@ -1000,6 +1082,28 @@
       scroll-snap-align: start;
     }
     .event-card .event-thumb { width: 100%; height: 140px; }
+
+    nav {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: var(--navy);   /* solid, still follows light/dark mode */
+    }
+
+    /* cheaper than the double drop-shadow filter, similar readability */
+    .hero-sub, .section-sub, .section-title, .title-word-1 {
+      filter: none;
+      text-shadow: 0 0 12px var(--navy), 0 0 24px var(--navy);
+    }
+
+    .title-word-2 {
+      filter: drop-shadow(0 0 8px var(--navy));  /* single light halo; use "none" to remove */
+      text-shadow: none;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .events-tabs { width: 100%; }
+    .events-tab { flex: 1; padding: 0.55rem 1rem; }
   }
 
   /* ─── CONTACT SECTION REDESIGN ─── */
@@ -1025,7 +1129,6 @@
   align-items: center;
   text-align: center;
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
   backdrop-filter: blur(10px);
 }
@@ -1044,7 +1147,6 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
-  transition: all 0.3s ease;
 }
 .contact-card:hover .contact-card-icon {
   background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-blue-dim) 100%);
@@ -1080,6 +1182,17 @@
   display: block;
   margin-top: 0.5rem;
 }
+/* Perubahan: Membuat bagian contacts lebih compact pada layar lebih kecil */
+@media (max-width: 768px) {
+  .contact-card {
+    flex-direction: row;
+    text-align: left;
+    padding-bottom: 15px;
+  }
+  .contact-card-icon {
+    margin-right: 20px;
+  }
+}
 
 /* Form Grid Layout */
   .form-grid {
@@ -1101,7 +1214,7 @@
     padding: 0.85rem 1.1rem;
     color: var(--text);
     font-family: 'Inter', sans-serif;
-    font-size: 16px;\n    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 16px;
     outline: none;
     appearance: none;
     -webkit-appearance: none;
@@ -1173,7 +1286,7 @@
     padding: 0.85rem 1.1rem;
     color: var(--text);
     font-family: 'Inter', sans-serif;
-    font-size: 16px;\n    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 16px;
     outline: none;
   }
   .form-group input::placeholder,
@@ -1328,7 +1441,7 @@
     width: 40px; height: 40px; border-radius: 10px; display: flex;
     align-items: center; justify-content: center;
     background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #9CA3AF; text-decoration: none; transition: all 0.3s ease;
+    color: #9CA3AF; text-decoration: none;
   }
   .footer-brand .socials a:hover { 
     border-color: var(--brand-blue); color: #fff; 
@@ -1350,7 +1463,7 @@
   .footer-tagline span { color: var(--brand-red); font-weight: 600; }
 
   /* ─── SCROLL REVEAL ─── */
-  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+  .reveal { opacity: 0; transform: translateY(30px);}
   .reveal.visible { opacity: 1; transform: none; }
 
   /* ─── STANDALONE JOIN PAGE LAYOUT ─── */
@@ -1386,6 +1499,23 @@
     width: 100%;
     margin: 0 auto;
     padding: 3rem 1.5rem 5rem;
+  }
+
+  .join-page-body .section-title::before {
+  display: none;
+  }
+  .join-page-body .section-title,
+  .join-page-body .section-desc {
+    filter: none;
+  }
+
+  /* make sure the highlighted words are a plain solid colour */
+  .join-page-body .gradient-text {
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    -webkit-text-fill-color: currentColor;
+    color: var(--brand-blue);
   }
 
   /* ─── RESPONSIVE ─── */
@@ -1492,7 +1622,6 @@
 /* ─── CREATE TEXT ANIMATIONS ─── */
 .create-animated {
   display: inline-block;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .create-animated:hover {
   transform: scale(1.08);
@@ -1555,7 +1684,6 @@ body.loaded .hero-actions { animation-delay: 1.05s; }
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  transition: all 0.3s ease;
   margin-right: 15px; /* space before hamburger */
 }
 .theme-btn:hover {
@@ -1570,6 +1698,15 @@ body.loaded .hero-actions { animation-delay: 1.05s; }
 }
 [data-theme="dark"] .moon-icon { display: none; }
 [data-theme="dark"] .sun-icon { display: block !important; }
+
+.skip-intro #ic-loader { display: none; }
+.skip-intro body:not(.join-page-body) { overflow: auto; overflow-x: hidden; }
+
+/* hero text still fades in, but without waiting for the loader */
+.skip-intro body.loaded .hero-badge   { animation-delay: 0.05s; }
+.skip-intro body.loaded .hero-title   { animation-delay: 0.15s; }
+.skip-intro body.loaded .hero-sub     { animation-delay: 0.25s; }
+.skip-intro body.loaded .hero-actions { animation-delay: 0.35s; }
 
 /* ─── CUSTOM MODERN TOAST POPUP ─── */
 .toast-notification {
@@ -1644,7 +1781,119 @@ body.loaded .hero-actions { animation-delay: 1.05s; }
   }
 }
 
+@media (max-width: 768px) {
+  nav,
+  .divisi-overlay,
+  .divisi-overlay-topbar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .divisi-overlay { background: var(--navy); }
+  .divisi-overlay-topbar { background: var(--navy); }
+}
+
 /* Additional text readability halo */
 .hero-sub, .section-sub, .section-title, .title-word-1, .title-word-2 {
   filter: drop-shadow(0 0 10px var(--navy)) drop-shadow(0 0 20px var(--navy));
+}
+
+/* Perubahan: Menghilangkan transisi fade pada Mobile */
+@media (max-width: 480px), (hover: none) {
+  html.theme-switching *,
+  html.theme-switching *::before,
+  html.theme-switching *::after {
+    transition: none !important;
+  }
+}
+
+/* Perubahan: Mengubah semua transition: all agar lebih ringan */
+/* Navigation / menu */
+.hamburger span {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mobile-menu-socials a {
+  transition: border-color 0.2s, color 0.2s;
+}
+.theme-btn {
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Buttons */
+.btn-hero-join {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              color 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.btn-primary {
+  transition: background 0.2s, transform 0.2s, color 0.2s;   /* color = loading state */
+}
+.btn-ghost {
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.btn-learn-more {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.social-link {
+  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+}
+.footer-brand .socials a {
+  transition: background 0.3s ease, border-color 0.3s ease,
+              color 0.3s ease, transform 0.3s ease;
+}
+
+/* Carousels */
+.carousel-btn,
+.member-carousel-btn {
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.carousel-dot,
+.member-carousel-dot {
+  transition: background 0.3s, width 0.3s, border-radius 0.3s;
+}
+
+/* Events */
+.event-card {
+  transition: border-color 0.3s, background-color 0.3s, transform 0.3s;
+}
+
+/* Contact */
+.contact-card {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.contact-card-icon {
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Form fields (see note below) */
+.form-group select,
+.form-group input,
+.form-group textarea {
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scroll reveal */
+.reveal {
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+/* .event-card also has .reveal, which used to give it "all 0.6s": keep that timing */
+.event-card.reveal {
+  transition: opacity 0.6s ease, transform 0.6s ease,
+              border-color 0.6s ease, background-color 0.6s ease;
+}
+
+/* Text hover */
+.create-animated {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              text-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

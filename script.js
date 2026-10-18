@@ -14,7 +14,9 @@ if (heroCanvas) {
     hW = heroCanvas.width = window.innerWidth;
     hH = heroCanvas.height = window.innerHeight;
     
-    const particleCount = Math.floor((hW * hH) / 10000);
+    // Perubahan: Mengurangi particle untuk Mobile
+    const density = window.innerWidth < 480 ? 22000 : 10000;
+    const particleCount = Math.floor((hW * hH) / density);  
     particles = [];
     
     for (let i = 0; i < particleCount; i++) {
@@ -36,7 +38,16 @@ if (heroCanvas) {
     resizeTimer = setTimeout(initMatrix, 200);
   });
 
+  // Perubahan: Membuat video lebih ringan
+  const featuredVideo = document.getElementById('featured-video');
+  const mobileMQ = window.matchMedia('(max-width: 480px)');
+
   function animateHero() {
+    if (document.hidden || (mobileMQ.matches && featuredVideo && !featuredVideo.paused)) {
+      requestAnimationFrame(animateHero);
+      return;
+    }
+
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     
     hCtx.clearRect(0, 0, hW, hH);
@@ -103,11 +114,12 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 (function() {
   const btn = document.getElementById('hamburger');
   const menu = document.getElementById('mobileMenu');
+  // Perubahan: Membuat agar halaman utama di background tidak bisa di scroll ketika dalam mobile menu
   function toggleMenu(force) {
     const open = force !== undefined ? force : !btn.classList.contains('open');
-    btn.classList.toggle('open', open);
-    menu.classList.toggle('open', open);
-    document.body.style.overflow = open ? 'hidden' : '';
+  btn.classList.toggle('open', open);
+  menu.classList.toggle('open', open);
+  document.documentElement.classList.toggle('menu-open', open);
   }
   btn.addEventListener('click', () => toggleMenu());
   document.querySelectorAll('.mobile-nav-link').forEach(a => {
@@ -230,6 +242,19 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // Init — no animation on first render
   goTo(current, false);
+
+  // Perubahan: Ketika link divisi di footer di klik, langsung ke divisi tersebut
+  window.goToDivisi = function (realIdx) {
+    if (realIdx < 0 || realIdx >= total) return;
+    isTransitioning = false;          // jangan sampai terkunci kalau animasi sedang berjalan
+    goTo(total + realIdx, false);     // pindah langsung tanpa animasi
+  };
+
+  document.querySelectorAll('[data-divisi]').forEach(link => {
+    link.addEventListener('click', () => {
+      window.goToDivisi(Number(link.dataset.divisi));
+    });
+  });
 })();
 
 // ─── DIVISI PAGE SYSTEM ───
@@ -513,7 +538,8 @@ function initMemberCarousel(wrapper, startIndex = 0) {
       ${membersHTML}
     `;
     overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    // Perubahan: Membuat agar halaman utama di background tidak bisa discroll ketika di divisi overlay
+    document.documentElement.classList.add('divisi-open');
     overlay.scrollTop = 0;
     const memberCarousel = pageContent.querySelector('.member-carousel-wrapper');
     if (memberCarousel) initMemberCarousel(memberCarousel, 0);
@@ -532,7 +558,8 @@ function initMemberCarousel(wrapper, startIndex = 0) {
       overlay.style.opacity = '';
       overlay.style.transform = '';
       overlay.style.transition = '';
-      document.body.style.overflow = '';
+      // Perubahan: Membuat agar halaman utama di background tidak bisa discroll ketika di divisi overlay
+      document.documentElement.classList.remove('divisi-open');;
     }, 300);
   };
 
@@ -557,6 +584,19 @@ window.toggleMute = function() {
   }
 };
 
+// Perubahan: Membuat agar video hanya main ketika kelihatan, agar lebih ringan
+(function () {
+  const video = document.getElementById('featured-video');
+  if (!video || !('IntersectionObserver' in window)) return;
+
+  const io = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) video.play().catch(() => {});
+    else video.pause();
+  }, { threshold: 0.25 });
+
+  io.observe(video);
+})();
+
 window.changeFeaturedEvent = function(videoSrc, year, status, statusClass, title, desc) {
   const videoObj = document.getElementById('featured-video');
   const yearObj = document.getElementById('featured-year');
@@ -570,14 +610,17 @@ window.changeFeaturedEvent = function(videoSrc, year, status, statusClass, title
   // Fade out effect
   featuredBody.style.opacity = '0';
   
+  // Perubahan: Membuat video lebih ringan
   setTimeout(() => {
+    videoObj.removeAttribute('poster');
     videoObj.src = videoSrc;
+    videoObj.load();
     yearObj.textContent = year;
     statusObj.textContent = status;
     statusObj.className = 'event-status ' + statusClass;
     titleObj.textContent = title;
     descObj.textContent = desc;
-    videoObj.play();
+    videoObj.play().catch(() => {});
     
     // Unmute automatically on user interaction
     videoObj.muted = false;
@@ -589,12 +632,50 @@ window.changeFeaturedEvent = function(videoSrc, year, status, statusClass, title
   }, 300);
 };
 
+// Perubahan: Menambahkan script berpindah antara panel events & activities
+// ─── EVENTS / ACTIVITIES TABS ───
+(function () {
+  const tabs = document.querySelectorAll('.events-tab');
+  const panels = document.querySelectorAll('.events-panel');
+  if (!tabs.length) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+
+      tabs.forEach(t => {
+        const active = t === tab;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', String(active));
+      });
+
+      panels.forEach(p => { p.hidden = p.id !== 'panel-' + target; });
+
+      // Jangan biarkan video tetap berjalan di belakang tab lain
+      const video = document.getElementById('featured-video');
+      if (video) {
+        if (target === 'events') video.play().catch(() => {});
+        else video.pause();
+      }
+    });
+  });
+})();
+
 // ─── IC TERMINAL BOOTLOADER ───
 (function() {
   const loader = document.getElementById('ic-loader');
   const terminal = document.getElementById('loader-terminal');
   const cursor = document.getElementById('loader-cursor');
   if(!loader) return;
+
+  // Perubahan: Skip intro jika sudah pernah main
+  let seen = false;
+  try { seen = sessionStorage.getItem('ic-intro-seen') === '1'; } catch (e) {}
+  if (seen) {
+    loader.remove();
+    document.body.classList.add('loaded');
+    return;
+  }
 
   const lines = [
     "Memulai sistem Informatics Community...",
@@ -614,6 +695,7 @@ window.changeFeaturedEvent = function(videoSrc, year, status, statusClass, title
       setTimeout(() => {
         loader.classList.add('hide');
         document.body.classList.add('loaded');
+        try { sessionStorage.setItem('ic-intro-seen', '1'); } catch (e) {}
         setTimeout(() => loader.remove(), 1000);
       }, 200);
       return;
@@ -645,20 +727,33 @@ window.changeFeaturedEvent = function(videoSrc, year, status, statusClass, title
 })();
 
 // Theme Switcher Logic
+// Perubahan: Membuat perubahan theme pada Mobile lebih instant
 (function() {
   const themeToggle = document.getElementById('theme-toggle');
-  if(!themeToggle) return;
-  
-  // Check local storage or system preference
+  if (!themeToggle) return;
+
+  const root = document.documentElement;
+  const isMobile = window.matchMedia('(max-width: 480px), (hover: none)');
+
   const savedTheme = localStorage.getItem('ic-theme');
-  if(savedTheme) {
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  }
+  if (savedTheme) root.setAttribute('data-theme', savedTheme);
 
   themeToggle.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
+    const newTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+
+    if (isMobile.matches) {
+      // mobile: switch instantly, no per-element color animation
+      root.classList.add('theme-switching');
+      root.setAttribute('data-theme', newTheme);
+      void root.offsetWidth; // force style recalc
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => root.classList.remove('theme-switching'))
+      );
+    } else {
+      // desktop: unchanged behavior
+      root.setAttribute('data-theme', newTheme);
+    }
+
     localStorage.setItem('ic-theme', newTheme);
   });
 })();
